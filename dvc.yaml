@@ -1,0 +1,32 @@
+stages:
+        build_dataset:
+                cmd: python create_dataset.py
+                deps:
+                - create_dataset.py
+                outs:
+                - assets/data
+
+        create_features:
+                cmd: python create_features.py
+                deps:
+                - create_features.py
+                - assets/data
+                outs:
+                - assets/features
+
+        train_model:
+               cmd: python train_model.py
+               deps:
+               - train_model.py
+               - assets/features
+               outs:
+               - assets/models
+
+        evaluate:
+               cmd: python evaluate.py
+               deps:
+               - evaluate.py
+               - assets/features
+               - assets/models
+               metrics:
+               - assets/metrics.json
